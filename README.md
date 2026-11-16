@@ -1,4 +1,4 @@
-# Bloxorz (self-hosted HTML5)
+# Bloxorz (self-hosted HTML5, `bloxorz-web`)
 
 The classic block-rolling puzzle — roll the 2×1 block across the tiled platforms,
 over the gaps, past the switches and bridges, and drop it into the goal hole.
@@ -13,7 +13,7 @@ analytics, or ad scripts.
 ## Play
 
 Open [`index.html`](index.html) in any modern browser — or use the
-[GitHub Pages build](https://mhollier117.github.io/bloxorz/).
+[GitHub Pages build](https://mhollierBPT.github.io/bloxorz-web/).
 
 - **Arrow keys / WASD** — roll the block
 - **Space** — switch which block to control when a stage splits the block in two
@@ -23,7 +23,7 @@ Open [`index.html`](index.html) in any modern browser — or use the
 
 ```html
 <iframe
-  src="https://mhollier117.github.io/bloxorz/"
+  src="https://mhollierBPT.github.io/bloxorz-web/"
   style="width:100%; height:100%; border:0;"
   title="Bloxorz">
 </iframe>
