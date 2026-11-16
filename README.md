@@ -44,6 +44,7 @@ iframed from any origin. Progress is stored in `localStorage` on the
 | `components/` | Adobe Animate web-component helpers (text input, CSS link) used by the stage loader |
 | `assets/styles.css` | Styling for the in-game stage loader |
 | `lib/` | Pinned copies of CreateJS 2015.11.26 and jQuery 3.6.3 / 2.2.4 |
+| `.nojekyll` | Makes GitHub Pages skip Jekyll — required so leading-underscore assets like `images/_preloader.gif` get published |
 
 No network calls are made at runtime other than the files in this repo.
 
