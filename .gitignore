@@ -1,0 +1,8 @@
+_*.py
+_*.pem
+__pycache__/
+_shot*.png
+_snapshot*.txt
+cmg-*.html
+.DS_Store
+Thumbs.db
