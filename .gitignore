@@ -1,5 +1,6 @@
 _*.py
 _*.pem
+_cred.txt
 __pycache__/
 _shot*.png
 _snapshot*.txt
