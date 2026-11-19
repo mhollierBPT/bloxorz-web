@@ -11851,7 +11851,8 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		//
 		
 		var stagePlay = this.gotoAndPlay.bind(this);
-		
+		var stageStop = this.gotoAndStop.bind(this);
+
 		function World() {
 			let _ = this;
 		
@@ -12376,7 +12377,7 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 					_.destroy();
 					stage.totalFalls++;
 					stage.levelAttempts++;
-					stagePlay("restart");
+					stageStop("restart");
 				});
 			};
 		
@@ -12433,7 +12434,7 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		}
 	}
 	this.frame_5 = function() {
-		this.gotoAndPlay("game");
+		this.gotoAndStop("game");
 	}
 	this.frame_6 = function() {
 		this.stop();
