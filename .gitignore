@@ -4,6 +4,6 @@ _cred.txt
 __pycache__/
 _shot*.png
 _snapshot*.txt
-cmg-*.html
+source-bloxorz*.html
 .DS_Store
 Thumbs.db

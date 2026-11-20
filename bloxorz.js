@@ -3434,7 +3434,7 @@ lib.ssMetadata = [
 
 
 
-(lib.CoolmathGames800x480 = function() {
+(lib.SplashLogo800x480 = function() {
 	this.spriteSheet = ss["bloxorz_atlas_"];
 	this.gotoAndStop(489);
 }).prototype = p = new cjs.Sprite();
@@ -4072,7 +4072,7 @@ p.nominalBounds = new cjs.Rectangle(-76,-8,178,21);
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CoolmathGames800x480();
+	this.instance = new lib.SplashLogo800x480();
 	this.instance.parent = this;
 	this.instance.setTransform(-218.8,-151.2,0.534,0.534);
 
@@ -4748,84 +4748,6 @@ p.nominalBounds = new cjs.Rectangle(-66.5,-11,133,22);
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(124,-108,200,150);
-
-
-(lib.coolmath = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer_1
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#FFFFFF").s().p("AAfAgIAAgmIgBgKQAAgCgDgCQgDgCgEAAQgGAAgEAFQgFAEAAAKIAAAjIgJAAIAAgoQAAgHgDgDQgCgEgGAAQgFAAgEADQgDACgCAEQgCAFAAAIIAAAgIgKAAIAAg9IAJAAIAAAIQADgEAFgDQAFgDAGAAQAHAAAFADQADADACAFQAHgLAMAAQAKAAAEAFQAFAFAAALIAAAqg");
-	this.shape.setTransform(52.5,0.9);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#FFFFFF").s().p("AgUAYQgIgIAAgQQAAgRAJgIQAIgGALgBQANAAAIAJQAIAIAAAPQAAALgEAHQgDAHgHADQgHAFgIAAQgMAAgIgJgAgMgRQgFAGAAALQAAAMAFAGQAFAGAHAAQAIAAAFgGQAFgGAAgMQAAgLgFgGQgFgGgIAAQgHAAgFAGg");
-	this.shape_1.setTransform(44.2,1);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#FFFFFF").s().p("AgSAYQgIgIAAgQQAAgJADgIQAEgHAGgEQAHgEAHAAQAKABAHAEQAGAFACAKIgKACQgCgHgDgDQgEgDgFAAQgHAAgFAGQgFAGAAALQAAAMAFAGQAEAGAHAAQAGAAAEgEQAFgEABgIIAKABQgCAMgHAFQgHAGgKABQgMAAgHgJg");
-	this.shape_2.setTransform(38,1);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f("#FFFFFF").s().p("AgFAGIAAgLIALAAIAAALg");
-	this.shape_3.setTransform(33.2,3.5);
-
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#FFFFFF").s().p("AgQAbQgHgEgCgLIALgBQAAAGAEADQAFAEAGAAQAHAAAEgDQADgDAAgEQAAgDgDgDIgLgDIgPgFQgFgBgCgFQgCgDAAgFQAAgEACgDIAFgGIAHgDIAJgCQAGABAGACQAGACACADQADAEAAAGIgKABQAAgEgEgDQgDgDgGAAQgGAAgEADQgDACAAADIABAEIAFACIAIADIAPAFQAFABACADQADAFAAAEQAAAGgDAFQgEAFgFACQgGADgHAAQgMgBgFgFg");
-	this.shape_4.setTransform(28.5,1);
-
-	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f("#FFFFFF").s().p("AgUAYQgIgIAAgQQAAgOAIgJQAIgJAMAAQANAAAIAJQAIAIAAAPIgBACIgtAAQABALAFAFQAFAFAHABQAGAAAEgEQAEgDACgGIALABQgCAKgHAFQgHAGgLAAQgNAAgIgJgAgLgSQgFAFAAAIIAhAAQAAgIgEgEQgFgGgIAAQgGAAgFAFg");
-	this.shape_5.setTransform(22.2,1);
-
-	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f("#FFFFFF").s().p("AAgAgIAAgmIgBgKIgEgEQgCgCgEAAQgHAAgEAFQgEAEgBAKIAAAjIgJAAIAAgoQAAgHgCgDQgDgEgGAAQgEAAgEADQgEACgCAEQgCAFABAIIAAAgIgLAAIAAg9IAKAAIAAAIQADgEAEgDQAFgDAGAAQAHAAAEADQAEADACAFQAHgLAMAAQAKAAAEAFQAFAFAAALIAAAqg");
-	this.shape_6.setTransform(13.9,0.9);
-
-	this.shape_7 = new cjs.Shape();
-	this.shape_7.graphics.f("#FFFFFF").s().p("AgWAbQgGgFAAgHQABgFACgDQACgFADgCIAHgCIAKgCQAMgCAFgCIAAgCQAAgGgCgDQgEgEgIAAQgGAAgFADQgDADgBAGIgLgBQABgHAEgEQADgEAGgCQAGgCAHgBQAIAAAFACQAFACADADQACADABAEIAAAKIAAANIABATQABAEACADIgLAAIgDgHQgGAEgFACQgEADgGAAQgLgBgFgFgAgCAEQgGAAgDACQgDABgBACQgBACAAAEQgBADAEADQADADAGAAQAFAAAFgDQAEgCADgFQACgDgBgIIAAgDIgQAEg");
-	this.shape_7.setTransform(5.5,1);
-
-	this.shape_8 = new cjs.Shape();
-	this.shape_8.graphics.f("#FFFFFF").s().p("AgSAoQgHgGABgKIAKABQABAGADACQADACAHAAQAHAAAEgCQAEgEABgFIABgNQgHAIgKAAQgMAAgHgKQgHgIAAgNQAAgJADgHQADgIAGgDQAGgEAIgBQALABAHAIIAAgHIAJAAIAAA1QAAAOgCAGQgDAGgHAEQgGADgJAAQgLAAgHgEgAgLgdQgFAGAAALQAAAMAFAFQAFAFAHABQAHgBAFgFQAFgFAAgMQAAgLgFgGQgGgGgHAAQgGAAgFAGg");
-	this.shape_8.setTransform(-1.3,2.2);
-
-	this.shape_9 = new cjs.Shape();
-	this.shape_9.graphics.f("#FFFFFF").s().p("AAPArIAAgoQAAgGgEgEQgDgEgGAAQgEAAgEADQgEACgCAEQgCAEAAAHIAAAiIgKAAIAAhVIAKAAIAAAfQAIgJAKAAQAHAAAFADQAFADACAFQACAEAAAIIAAAog");
-	this.shape_9.setTransform(-7.8,-0.2);
-
-	this.shape_10 = new cjs.Shape();
-	this.shape_10.graphics.f("#FFFFFF").s().p("AgBApIgEgFQgBgDAAgKIAAgjIgIAAIAAgIIAIAAIAAgPIAJgGIAAAVIALAAIAAAIIgLAAIAAAkIABAGIABACIAEAAIAFAAIABAJIgIABQgFAAgDgBg");
-	this.shape_10.setTransform(-12.7,-0.1);
-
-	this.shape_11 = new cjs.Shape();
-	this.shape_11.graphics.f("#FFFFFF").s().p("AgWAbQgGgFABgHQAAgFACgDQACgFADgCIAHgCIAKgCQAMgCAFgCIAAgCQAAgGgDgDQgEgEgHAAQgGAAgFADQgDADgBAGIgLgBQACgHADgEQADgEAGgCQAGgCAHgBQAIAAAFACQAFACACADQADADABAEIABAKIAAANIAAATQABAEACADIgLAAIgDgHQgFAEgGACQgEADgGAAQgLgBgFgFgAgCAEQgGAAgDACQgCABgCACQgCACABAEQgBADAEADQADADAGAAQAFAAAFgDQAEgCADgFQABgDAAgIIAAgDIgQAEg");
-	this.shape_11.setTransform(-17.8,1);
-
-	this.shape_12 = new cjs.Shape();
-	this.shape_12.graphics.f("#FFFFFF").s().p("AAfAgIAAgmIAAgKIgEgEQgCgCgEAAQgHAAgEAFQgEAEgBAKIAAAjIgJAAIAAgoQAAgHgCgDQgEgEgFAAQgEAAgEADQgEACgCAEQgBAFgBAIIAAAgIgKAAIAAg9IAKAAIAAAIQADgEAEgDQAFgDAGAAQAHAAAEADQAEADACAFQAHgLAMAAQAJAAAFAFQAFAFAAALIAAAqg");
-	this.shape_12.setTransform(-26.1,0.9);
-
-	this.shape_13 = new cjs.Shape();
-	this.shape_13.graphics.f("#FFFFFF").s().p("AgEArIAAhVIAJAAIAABVg");
-	this.shape_13.setTransform(-32.5,-0.2);
-
-	this.shape_14 = new cjs.Shape();
-	this.shape_14.graphics.f("#FFFFFF").s().p("AgUAYQgIgIAAgQQAAgRAJgIQAIgGALgBQANAAAIAJQAIAIAAAPQAAALgEAHQgDAHgHADQgHAFgIAAQgMAAgIgJgAgMgRQgFAGAAALQAAAMAFAGQAFAGAHAAQAIAAAFgGQAFgGAAgMQAAgLgFgGQgFgGgIAAQgHAAgFAGg");
-	this.shape_14.setTransform(-37.1,1);
-
-	this.shape_15 = new cjs.Shape();
-	this.shape_15.graphics.f("#FFFFFF").s().p("AgUAYQgIgIAAgQQAAgRAJgIQAIgGALgBQANAAAIAJQAIAIAAAPQAAALgEAHQgDAHgHADQgHAFgIAAQgMAAgIgJgAgMgRQgFAGAAALQAAAMAFAGQAFAGAHAAQAIAAAFgGQAFgGAAgMQAAgLgFgGQgFgGgIAAQgHAAgFAGg");
-	this.shape_15.setTransform(-43.7,1);
-
-	this.shape_16 = new cjs.Shape();
-	this.shape_16.graphics.f("#FFFFFF").s().p("AgSAYQgIgIAAgQQAAgJADgIQAEgHAGgEQAHgEAHAAQAKABAHAEQAGAFACAKIgKACQgCgHgDgDQgEgDgFAAQgHAAgFAGQgFAGAAALQAAAMAFAGQAEAGAHAAQAGAAAEgEQAFgEABgIIAKABQgCAMgHAFQgHAGgKABQgMAAgHgJg");
-	this.shape_16.setTransform(-49.9,1);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_16},{t:this.shape_15},{t:this.shape_14},{t:this.shape_13},{t:this.shape_12},{t:this.shape_11},{t:this.shape_10},{t:this.shape_9},{t:this.shape_8},{t:this.shape_7},{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-59.5,-8.7,119,17.4);
 
 
 (lib.bloxorztitle2congra = function(mode,startPosition,loop) {
@@ -6456,23 +6378,23 @@ p.nominalBounds = null;
 		
 		stage.onScreenKeys = {
 			ku: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowUp"});
 			},
 			kd: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowDown"});
 			},
 			kl: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowLeft"});
 			},
 			kr: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowRight"});
 			},
 			end: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyUp({code: "touchup"});
 			}
 		};
@@ -6507,27 +6429,27 @@ p.nominalBounds = null;
 		
 		stage.onScreenKeys = {
 			ku: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowUp"});
 			},
 			kd: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowDown"});
 			},
 			kl: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowLeft"});
 			},
 			kr: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "ArrowRight"});
 			},
 			end: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyUp({code: "touchup"});
 			},
 			ss: function() {
-				if (isAdBreakActive) return;
+				if (isHostPauseActive) return;
 				stage.triggerKeyDown({code: "Space"});
 			}
 		};
@@ -6681,41 +6603,6 @@ p.nominalBounds = new cjs.Rectangle(1,-21,13,22);
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(1,-21,35.5,42);
-
-
-(lib.Tween43 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		if(stage.touchMode) {
-			this.gotoAndStop(1);
-		} else {
-			this.stop();
-		}
-	}
-	this.frame_1 = function() {
-		if(!stage.touchMode) {
-			this.gotoAndStop(0);
-		} else {
-			this.stop();
-		}
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
-
-	// Layer 1
-	this.btn = new lib.coolmath();
-	this.btn.name = "btn";
-	this.btn.parent = this;
-	this.btn.setTransform(78.5,-9);
-	new cjs.ButtonHelper(this.btn, 0, 1, 1);
-
-	this.timeline.addTween(cjs.Tween.get(this.btn).wait(1).to({regX:60.1,regY:9.8,scaleX:0.96,scaleY:0.96,x:60.7,y:0.9},0).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(19,-17.7,119,17.4);
 
 
 (lib.numberdisplaysmallblack = function(mode,startPosition,loop) {
@@ -12415,15 +12302,15 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 					const stageName = stage.levelNumber > levels.length ? "finish" : "stagetitle";
 
 					setTimeout(()=>{
-						cmgAdBreakCall();					
+						hostPauseCall();					
 						
-						onAdBreakCompleteCallback = () => {
-							onAdBreakCompleteCallback = null;
+						onHostPauseCompleteCallback = () => {
+							onHostPauseCompleteCallback = null;
 							stagePlay(stageName);
 						};
 						setTimeout(()=>{
-							if (isAdBreakActive) return;
-							onAdBreakCompleteCallback();
+							if (isHostPauseActive) return;
+							onHostPauseCompleteCallback();
 						}, 1000);
 					}, 100);
 				});
@@ -12443,8 +12330,8 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		window.__lastWorld = world;
 
 		try {
-			if(parent.cmgGameEvent) {
-				parent.cmgGameEvent(stage.levelAttempts === 0 ? "start" : "replay", stage.levelNumber + "");
+			if(parent.gameEvent) {
+				parent.gameEvent(stage.levelAttempts === 0 ? "start" : "replay", stage.levelNumber + "");
 			}
 		} catch (e) {
 			// cross-origin frame: the parent window is unreadable, the hook is optional

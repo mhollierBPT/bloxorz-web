@@ -4,11 +4,11 @@ The classic block-rolling puzzle — roll the 2×1 block across the tiled platfo
 over the gaps, past the switches and bridges, and drop it into the goal hole.
 33 hand-crafted stages, with saved progress (per-browser) and a stage loader.
 
-This is the **HTML5 build of Bloxorz as served by [Cool Math Games](https://www.coolmathgames.com/0-bloxorz)**
-(an Adobe Animate / CreateJS port of the original 2009 Flash game by
-[Mike Krahne](https://web.archive.org/web/2011*/http://www.bloxorz.com/)),
-captured and self-hosted so it plays anywhere without Flash, plugins, CDNs,
-analytics, or ad scripts.
+This is the **HTML5 build of Bloxorz** — an Adobe Animate / CreateJS port of
+the original 2009 Flash game by
+[Mike Krahne](https://web.archive.org/web/2011*/http://www.bloxorz.com/),
+self-hosted so it plays anywhere without Flash, plugins, CDNs, analytics, or
+ad scripts.
 
 ## Play
 
@@ -51,6 +51,5 @@ No network calls are made at runtime other than the files in this repo.
 ## Attribution
 
 - Game: **Bloxorz** — originally a 2009 Flash game by Mike Krahne (bloxorz.com).
-- This build: the HTML5 port hosted at coolmathgames.com
-  (`/sites/default/files/public_games/48807/`, captured 2026-11-16).
+- This build: the HTML5 port, captured and self-hosted 2026-11-16.
 - Engine: [CreateJS](https://createjs.com/) (MIT) and [jQuery](https://jquery.com/) (MIT), self-hosted at the versions the original page used.

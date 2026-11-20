@@ -27,13 +27,13 @@
 <script src="lib/createjs-2015.11.26.min.js"></script>
 <script src="bloxorz.js"></script>
 <script>
-  // The game calls these on level transitions (in the original
-  // coolmathgames.com page they drove the ad-break pause).
-  // Here they are inert: the game's own 1s fallback advances the level.
-  let isAdBreakActive = false;
+  // The game calls these on level transitions to coordinate with an
+  // host-pause pause in a host page. Here they are inert: the game's own
+  // 1s fallback advances the level.
+  let isHostPauseActive = false;
   let wasMuted = false;
-  let onAdBreakCompleteCallback = null;
-  function cmgAdBreakCall() {}
+  let onHostPauseCompleteCallback = null;
+  function hostPauseCall() {}
 </script>
 <script>
 var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
@@ -86,7 +86,7 @@ function handleComplete(evt,comp) {
 		// which stalled every tick-based transition; rAF keeps running.
 		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 		createjs.Ticker.addEventListener("tick", function(event) {
-			if (isAdBreakActive) return;
+			if (isHostPauseActive) return;
 			stage.update(event);
 		});
 	}
