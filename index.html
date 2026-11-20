@@ -97,6 +97,15 @@ function handleComplete(evt,comp) {
 	// volume set while no plugin exists is only recorded, never applied, so
 	// the plugin would start at full volume while the game believed it muted.
 	createjs.Sound.initializeDefaultPlugins();
+	// Browsers start Web Audio suspended until the page gets a click or key
+	// press (the old splash click used to be that gesture); resume it on the first one.
+	var resumeAudio = function() {
+		var ctx = createjs.WebAudioPlugin && createjs.WebAudioPlugin.context;
+		if (ctx && ctx.state === "suspended" && ctx.resume) ctx.resume();
+	};
+	["pointerdown", "keydown", "touchstart"].forEach(function(type) {
+		window.addEventListener(type, resumeAudio, true);
+	});
 	try {
 		createjs.Sound.volume = window.localStorage.getItem("bloxorz_muted") === "0" ? 1 : 0;
 	} catch (e) {
@@ -105,12 +114,19 @@ function handleComplete(evt,comp) {
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		stage.addChild(exportRoot);
-		createjs.Ticker.setFPS(lib.properties.fps);
-		// Drive the 36fps clock from requestAnimationFrame instead of the
-		// default nested setTimeout: Chrome clamps timers to 1s in a
-		// visible-but-unfocused tab (e.g. an embedded dashboard widget),
-		// which stalled every tick-based transition; rAF keeps running.
-		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+		// Redraw on every display refresh (requestAnimationFrame; timers are
+		// clamped to 1s in a visible-but-unfocused tab such as a dashboard
+		// widget) and play every timeline by elapsed time at the designed
+		// 36fps. Ticking at 36fps instead snaps to every other 60Hz refresh,
+		// which ran the whole game at 30fps, ~17% slow.
+		createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		// Cap one step after a stall (e.g. a hidden tab) so the game resumes instead of jumping.
+		createjs.Ticker.maxDelta = 100;
+		var advance = createjs.MovieClip.prototype.advance;
+		createjs.MovieClip.prototype.advance = function(time) {
+			if (this.framerate == null) this.framerate = lib.properties.fps;
+			return advance.call(this, time);
+		};
 		createjs.Ticker.addEventListener("tick", function(event) {
 			if (isHostPauseActive) return;
 			// Advance timelines first so the cache sees this frame's state.

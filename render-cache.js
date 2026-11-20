@@ -3,14 +3,18 @@
 // Every frame CreateJS redraws the whole level as vectors (~90 tiles, the
 // background, the pause menu), although between moves almost nothing changes.
 // This watches a set of containers and, once one has stayed identical for a
-// few ticks, caches it to a bitmap at device resolution (so it stays sharp).
+// while, caches it to a bitmap at device resolution (so it stays sharp).
 // The moment anything inside it changes (a timeline frame, a position, alpha,
 // visibility, a child added or removed) the cache is dropped and it is drawn
 // live again, so animations look exactly as before.
 (function () {
 	"use strict";
 
-	var STABLE_TICKS = 3;
+	// How long a layer must stay unchanged before it is cached. Longer than
+	// two 36fps animation frames, so a timeline holding one frame across
+	// several fast (120/144Hz) display refreshes isn't cached and dropped
+	// again on every frame.
+	var STABLE_MS = 80;
 
 	// Writes the state of a subtree into sig[] starting at i and returns the
 	// new length; sets sig.dirty when a value differs from the previous tick.
@@ -81,10 +85,11 @@
 		// expensive to draw.
 		update: function (stage, layers) {
 			var canvas = stage.canvas;
+			var now = Date.now();
 			for (var n = 0; n < layers.length; n++) {
 				var o = layers[n];
 				if (!o || !o.renderCacheable) continue;
-				var st = o.__rc || (o.__rc = { sig: [], stable: 0, canvas: null });
+				var st = o.__rc || (o.__rc = { sig: [], since: now, canvas: null });
 				var sig = st.sig;
 				sig.dirty = false;
 				var i = put(sig, 0, canvas.width);
@@ -96,9 +101,9 @@
 					sig.dirty = true;
 				}
 				if (sig.dirty || !o.visible || !o.parent) {
-					st.stable = 0;
+					st.since = now;
 					uncache(o, st);
-				} else if (++st.stable >= STABLE_TICKS && !o.cacheCanvas) {
+				} else if (now - st.since >= STABLE_MS && !o.cacheCanvas) {
 					cacheAtDeviceResolution(o, st, canvas);
 				}
 			}

@@ -7,6 +7,35 @@ lib.ssMetadata = [
 ];
 
 
+// Every Tile builds three identical colour-filtered children with cache(),
+// and each cache() reads the pixels back from a canvas: ~7.5ms per tile, a
+// ~0.7s freeze to build a level. Filter each one once and let every later
+// instance draw that same bitmap (they are never re-cached).
+var sharedCaches = {};
+function sharedCache(obj, key, x, y, width, height) {
+	var c = sharedCaches[key];
+	if (!c) {
+		obj.cache(x, y, width, height);
+		sharedCaches[key] = {
+			cacheCanvas: obj.cacheCanvas, cacheID: obj.cacheID,
+			_cacheWidth: obj._cacheWidth, _cacheHeight: obj._cacheHeight,
+			_cacheOffsetX: obj._cacheOffsetX, _cacheOffsetY: obj._cacheOffsetY,
+			_cacheScale: obj._cacheScale,
+			_filterOffsetX: obj._filterOffsetX, _filterOffsetY: obj._filterOffsetY
+		};
+		return;
+	}
+	obj.cacheCanvas = c.cacheCanvas;
+	obj.cacheID = c.cacheID;
+	obj._cacheWidth = c._cacheWidth;
+	obj._cacheHeight = c._cacheHeight;
+	obj._cacheOffsetX = c._cacheOffsetX;
+	obj._cacheOffsetY = c._cacheOffsetY;
+	obj._cacheScale = c._cacheScale;
+	obj._filterOffsetX = c._filterOffsetX;
+	obj._filterOffsetY = c._filterOffsetY;
+}
+
 // symbols:
 
 
@@ -6211,7 +6240,7 @@ p.nominalBounds = null;
 	this.instance_13.setTransform(10.5,329);
 	this.instance_13._off = true;
 	this.instance_13.filters = [new cjs.ColorFilter(0, 0, 0, 1, 0, 0, 0, 0)];
-	this.instance_13.cache(-27,-18,53,37);
+	sharedCache(this.instance_13, "Tile.instance_13", -27,-18,53,37);
 
 	this.instance_14 = new lib.softswitch_v3();
 	this.instance_14.parent = this;
@@ -6222,7 +6251,7 @@ p.nominalBounds = null;
 	this.instance_15.setTransform(10.5,329);
 	this.instance_15._off = true;
 	this.instance_15.filters = [new cjs.ColorFilter(0, 0, 0, 1, 0, 0, 0, 0)];
-	this.instance_15.cache(-27,-16,53,37);
+	sharedCache(this.instance_15, "Tile.instance_15", -27,-16,53,37);
 
 	this.instance_16 = new lib.hardswitch_v3();
 	this.instance_16.parent = this;
@@ -6269,7 +6298,7 @@ p.nominalBounds = null;
 	this.instance_26.setTransform(10.5,329);
 	this.instance_26._off = true;
 	this.instance_26.filters = [new cjs.ColorFilter(0, 0, 0, 1, 0, 0, 0, 0)];
-	this.instance_26.cache(-27,-19,56,40);
+	sharedCache(this.instance_26, "Tile.instance_26", -27,-19,56,40);
 
 	this.instance_27 = new lib.splitswitch_v2();
 	this.instance_27.parent = this;
@@ -10225,13 +10254,7 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		this.stop();
 		
 		var _ = this;
-		// Snap straight to the finished menu instead of fading the splash out
-		// and playing the menu's intro animation (~5s before it was usable).
-		_.splash.addEventListener("click", function(){
-			stage.doneIntro = true;
-			_.gotoAndStop(1);
-		});
-		
+
 		stage.gameContainer = new createjs.Container();
 		stage.addChild(stage.gameContainer);
 		
@@ -10260,6 +10283,10 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		};
 		
 		stage.touchMode = !!(('ontouchstart' in window) || navigator.maxTouchPoints);
+
+		// Skip the splash and the menu's intro animation: open on the finished menu.
+		stage.doneIntro = true;
+		_.gotoAndStop(1);
 	}
 	this.frame_1 = function() {
 		stage.levelNumber = 1;
@@ -10291,12 +10318,14 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		this.stop();
 		var _ = this;
 		var delay = 75;
-		var tick = function () {
-			if (delay === 0) {
+		// Counted in 36fps frames of elapsed time; the Ticker runs at the display rate.
+		var elapsed = 0;
+		var tick = function (evt) {
+			elapsed += evt.delta / (1000 / lib.properties.fps);
+			if (elapsed > delay) {
 				_.gotoAndStop("game");
 				createjs.Ticker.removeEventListener("tick", tick);
 			}
-			delay--;
 		};
 		createjs.Ticker.addEventListener("tick", tick);
 		
@@ -11343,13 +11372,21 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		// wait
 		//
 		
+		// The Ticker runs at the display rate; these helpers count the game's
+		// 36fps frames by elapsed time so effects keep their designed duration.
+		function frames(evt) {
+			return evt.delta / (1000 / lib.properties.fps);
+		}
+
 		function wait(delay, then) {
 			var fired = false;
-			var tick = function () {
+			var elapsed = 0;
+			var tick = function (evt) {
 				if (fired) {
 					return;
 				}
-				if (delay === 0) {
+				elapsed += frames(evt);
+				if (elapsed > delay) {
 					fired = true;
 					createjs.Ticker.removeEventListener("tick", tick);
 					try {
@@ -11359,7 +11396,6 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 					}
 					return;
 				}
-				delay--;
 			};
 			createjs.Ticker.addEventListener("tick", tick);
 		}
@@ -11523,14 +11559,15 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 			var z = 0;
 			var zs = 0;
 		
-			var fall = function () {
+			var fall = function (evt) {
+				var dt = frames(evt);
 				if (axis && speed) {
-					mc.pos[axis] += speed * 0.25;
+					mc.pos[axis] += speed * 0.25 * dt;
 				}
 				mc.pos.update();
-		
-				zs += 3;
-				z += zs;
+
+				zs += 3 * dt;
+				z += zs * dt;
 				mc.y += z;
 				if (!axis) {
 					mc.alpha = Math.max(0, 1 - (z / 300));
@@ -11552,12 +11589,13 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		function addSwirl(mc, centreX, centreY) {
 			var t = 1;
 		
-			var swirl = function () {
+			var swirl = function (evt) {
+				var dt = frames(evt);
 				var theta = Math.atan2(mc.pos.y - centreY, mc.pos.x - centreX);
-				mc.pos.x -= Math.sin(theta) * t * 0.2;
-				mc.pos.y += Math.cos(theta) * t * 0.2;
+				mc.pos.x -= Math.sin(theta) * t * 0.2 * dt;
+				mc.pos.y += Math.cos(theta) * t * 0.2 * dt;
 				mc.pos.update();
-				t++;
+				t += dt;
 		
 				mc.alpha = Math.max(0, 1 - (t / 20));
 		
