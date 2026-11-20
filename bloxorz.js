@@ -11770,7 +11770,15 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 			_.layerShadows = new createjs.Container();
 			_.layerShadows.alpha = 0.5;
 			_.layerTiles = new createjs.Container();
-			
+			// Nothing in these layers is clickable; keep the mouseover hit test out of them.
+			_.layerBlocks.mouseEnabled = _.layerBlocks.mouseChildren = false;
+			_.layerShadows.mouseEnabled = _.layerShadows.mouseChildren = false;
+			_.layerTiles.mouseEnabled = _.layerTiles.mouseChildren = false;
+			// The expensive vector layers; render-cache.js bitmaps them while they're still.
+			_.background.renderCacheable = true;
+			_.layerTiles.renderCacheable = true;
+			_.layerShadows.renderCacheable = true;
+
 			stage.gameContainer.addChild(_.background);
 			stage.gameContainer.addChild(_.layerTiles);
 			stage.gameContainer.addChild(_.layerShadows);
@@ -12400,7 +12408,7 @@ lib.properties = {
 	color: "#000000",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/bloxorz_atlas_.png", id:"bloxorz_atlas_"},
+		{src:"images/bloxorz_atlas_.webp", id:"bloxorz_atlas_"},
 		{src:"sounds/Click.mp3", id:"Click"},
 		{src:"sounds/Latch.mp3", id:"Latch"},
 		{src:"sounds/blox003wav.mp3", id:"blox003wav"},

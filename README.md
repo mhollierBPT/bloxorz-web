@@ -37,10 +37,11 @@ iframed from any origin. Progress is stored in `localStorage` on the
 
 | Path | What it is |
 |---|---|
-| `index.html` | Cleaned-up launch page (responsive scaling from the original `/play` page, analytics/ads removed) |
-| `bloxorz.js` | The game itself (Adobe Animate HTML5 export; only change: the manifest's jQuery entry now points at `lib/jquery-2.2.4.min.js`) |
-| `images/bloxorz_atlas_.png` | Sprite atlas |
-| `sounds/` | All 40 sound effects + background music |
+| `index.html` | Cleaned-up launch page (responsive scaling from the original `/play` page, analytics/ads removed). Loads the atlas and scripts in parallel, shows the game, then loads the sounds in the background |
+| `bloxorz.js` | The game itself (Adobe Animate HTML5 export, with small fixes: local jQuery path, WebP atlas, level-transition and embed fixes) |
+| `render-cache.js` | Caches the expensive game layers (background, tiles, shadows) to bitmaps at device resolution while they're not changing, and draws them live again as soon as something in them moves; cuts the per-frame draw cost by about 7× |
+| `images/bloxorz_atlas_.webp` | Sprite atlas (lossless WebP, pixel-identical to the original PNG, 32% smaller) |
+| `sounds/` | All 40 sound effects + background music (loaded after the game appears; the game is muted by default) |
 | `components/` | Adobe Animate web-component helpers (text input, CSS link) used by the stage loader |
 | `assets/styles.css` | Styling for the in-game stage loader |
 | `lib/` | Pinned copies of CreateJS 2015.11.26 and jQuery 3.6.3 / 2.2.4 |

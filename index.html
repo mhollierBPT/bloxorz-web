@@ -23,9 +23,11 @@
     user-select: none;
     }
 </style>
-<script src="lib/jquery-3.6.3.min.js"></script>
-<script src="lib/createjs-2015.11.26.min.js"></script>
-<script src="bloxorz.js"></script>
+<!-- defer: let the preloader paint while ~700 KB of script downloads; init() runs on load. -->
+<script defer src="lib/jquery-3.6.3.min.js"></script>
+<script defer src="lib/createjs-2015.11.26.min.js"></script>
+<script defer src="bloxorz.js"></script>
+<script defer src="render-cache.js"></script>
 <script>
   // The game calls these on level transitions to coordinate with an
   // host-pause pause in a host page. Here they are inert: the game's own
@@ -43,12 +45,32 @@ function init() {
 	dom_overlay_container = document.getElementById("dom_overlay_container");
 	var comp=AdobeAn.getComposition("FE31B685947E79408F0C8768D6EC8517");
 	var lib=comp.getLibrary();
+	// Load only what the first frame needs (sprite atlas + component scripts),
+	// several files at a time; PreloadJS defaults to one request at a time.
+	// The 40 sound files follow in the background once the game is showing.
+	var manifest = lib.properties.manifest.filter(function(item){ return !/\.mp3$/i.test(item.src); });
+	soundManifest = lib.properties.manifest.filter(function(item){ return /\.mp3$/i.test(item.src); });
+	// PreloadJS abandons any file still loading after 8s, which on a slow
+	// connection drops the 2.5 MB sprite atlas and the game never starts.
+	createjs.LoadItem.LOAD_TIMEOUT_DEFAULT = 120000;
 	var loader = new createjs.LoadQueue(false);
-	loader.installPlugin(createjs.Sound);
+	loader.setMaxConnections(6);
 	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
 	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
-	var lib=comp.getLibrary();
-	loader.loadManifest(lib.properties.manifest);
+	loader.loadManifest(manifest);
+}
+var soundManifest = [];
+function loadSounds() {
+	var loader = new createjs.LoadQueue(false);
+	loader.installPlugin(createjs.Sound);
+	loader.setMaxConnections(6);
+	loader.addEventListener("complete", function() {
+		// Music started before its file had loaded failed silently; start it now.
+		if (stage.menuMusic && stage.menuMusic.playState === createjs.Sound.PLAY_FAILED) {
+			stage.menuMusic = createjs.Sound.play("Music", {loop: -1});
+		}
+	});
+	loader.loadManifest(soundManifest);
 }
 function handleFileLoad(evt, comp) {
 	var images=comp.getImages();
@@ -87,7 +109,12 @@ function handleComplete(evt,comp) {
 		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 		createjs.Ticker.addEventListener("tick", function(event) {
 			if (isHostPauseActive) return;
-			stage.update(event);
+			// Advance timelines first so the cache sees this frame's state.
+			stage.tickOnUpdate = false;
+			stage.tick(event);
+			window.renderCache.update(stage, stage.gameContainer ? stage.gameContainer.children : []);
+			stage.update();
+			stage.tickOnUpdate = true;
 		});
 	}
 	//Code to support hidpi screens and responsive scaling.
@@ -132,6 +159,7 @@ function handleComplete(evt,comp) {
 	makeResponsive(true,'both',true,1);
 	AdobeAn.compositionLoaded(lib.properties.id);
 	fnStartAnimation();
+	loadSounds();
 }
 function playSound(id, loop) {
 	return createjs.Sound.play(id, createjs.Sound.INTERRUPT_EARLY, 0, 0, loop);
