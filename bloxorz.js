@@ -11465,10 +11465,20 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		//
 		
 		function wait(delay, then) {
+			var fired = false;
 			var tick = function () {
+				if (fired) {
+					return;
+				}
 				if (delay === 0) {
-					then();
+					fired = true;
 					createjs.Ticker.removeEventListener("tick", tick);
+					try {
+						then();
+					} catch (e) {
+						if (window.console) console.error("bloxorz wait error", e);
+					}
+					return;
 				}
 				delay--;
 			};
@@ -11524,7 +11534,9 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		
 			window.addEventListener("keydown", down);
 			window.addEventListener("keyup", up);
-			
+			mc.keys._down = down;
+			mc.keys._up = up;
+
 			stage.triggerKeyDown = down;
 			stage.triggerKeyUp = up;
 		}
@@ -11923,6 +11935,9 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 			});
 			_.pauseMenu.buttons.toggleSound.addEventListener("click", function(){
 				createjs.Sound.volume = createjs.Sound.volume === 1 ? 0 : 1;
+				try {
+					window.localStorage.setItem("bloxorz_muted", createjs.Sound.volume === 0 ? "1" : "0");
+				} catch (e) {}
 			});
 			_.pauseMenu.buttons.quitToMenu.addEventListener("click", function(){
 				_.pauseMenu.play();
@@ -11944,6 +11959,16 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 			// destroy
 			_.destroy = function () {
 				createjs.Ticker.removeEventListener("tick", _.tick);
+				if (_.keys && _.keys._down) {
+					window.removeEventListener("keydown", _.keys._down);
+					window.removeEventListener("keyup", _.keys._up);
+					if (stage.triggerKeyDown === _.keys._down) {
+						stage.triggerKeyDown = undefined;
+					}
+					if (stage.triggerKeyUp === _.keys._up) {
+						stage.triggerKeyUp = undefined;
+					}
+				}
 				_.removeAllBlocks();
 				_.removeAllTiles();
 		
@@ -12429,8 +12454,12 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		var world = new World();
 		world.loadLevel();
 		
-		if(parent.cmgGameEvent) {
-			parent.cmgGameEvent(stage.levelAttempts === 0 ? "start" : "replay", stage.levelNumber + "");
+		try {
+			if(parent.cmgGameEvent) {
+				parent.cmgGameEvent(stage.levelAttempts === 0 ? "start" : "replay", stage.levelNumber + "");
+			}
+		} catch (e) {
+			// cross-origin frame: the parent window is unreadable, the hook is optional
 		}
 	}
 	this.frame_5 = function() {

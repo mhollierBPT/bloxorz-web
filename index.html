@@ -69,10 +69,22 @@ function handleComplete(evt,comp) {
 	exportRoot = new lib.bloxorzhtml();
 	stage = new lib.Stage(canvas);
 	stage.enableMouseOver();
+	// Muted by default (embedded widget); the pause-menu sound toggle
+	// unmutes and the choice is remembered.
+	try {
+		createjs.Sound.volume = window.localStorage.getItem("bloxorz_muted") === "0" ? 1 : 0;
+	} catch (e) {
+		createjs.Sound.volume = 0;
+	}
 	//Registers the "tick" event listener.
 	fnStartAnimation = function() {
 		stage.addChild(exportRoot);
 		createjs.Ticker.setFPS(lib.properties.fps);
+		// Drive the 36fps clock from requestAnimationFrame instead of the
+		// default nested setTimeout: Chrome clamps timers to 1s in a
+		// visible-but-unfocused tab (e.g. an embedded dashboard widget),
+		// which stalled every tick-based transition; rAF keeps running.
+		createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
 		createjs.Ticker.addEventListener("tick", function(event) {
 			if (isAdBreakActive) return;
 			stage.update(event);
