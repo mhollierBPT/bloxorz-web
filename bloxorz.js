@@ -9125,7 +9125,9 @@ p.nominalBounds = new cjs.Rectangle(-174.9,115.5,1058.9,110);
 		*/
 		
 		if(stage.doneIntro) {
-			this.gotoAndPlay("skipped");
+			// Show the menu fully drawn at once (the "skipped" fade-in is no longer played).
+			stage.trapKeys = true;
+			this.gotoAndStop("main");
 		}
 		
 		if(stage.localSave.get() !== -1) {
@@ -10223,8 +10225,11 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		this.stop();
 		
 		var _ = this;
+		// Snap straight to the finished menu instead of fading the splash out
+		// and playing the menu's intro animation (~5s before it was usable).
 		_.splash.addEventListener("click", function(){
-			_.splash.play();
+			stage.doneIntro = true;
+			_.gotoAndStop(1);
 		});
 		
 		stage.gameContainer = new createjs.Container();
