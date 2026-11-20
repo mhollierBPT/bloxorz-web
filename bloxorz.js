@@ -4076,11 +4076,7 @@ p.nominalBounds = new cjs.Rectangle(-76,-8,178,21);
 	this.instance.parent = this;
 	this.instance.setTransform(-218.8,-151.2,0.534,0.534);
 
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#454545").ss(1,1,1).p("EAswAAAMhZfAAA");
-	this.shape.setTransform(0,158.4);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-287.4,-151.2,574.8,310.6);
@@ -9369,15 +9365,6 @@ p.nominalBounds = new cjs.Rectangle(-174.9,115.5,1058.9,110);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape).to({_off:true},339).wait(50));
 
-	// Layer 17
-	this.instance = new lib.Tween43();
-	this.instance.parent = this;
-	this.instance.setTransform(367,294.4);
-	this.instance.alpha = 0;
-	this.instance._off = true;
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(121).to({_off:false},0).to({x:406,alpha:1},12,cjs.Ease.get(1)).wait(23).to({x:367,alpha:0},8,cjs.Ease.get(-1)).to({x:406,alpha:1},1,cjs.Ease.get(1)).wait(21).to({alpha:0},11,cjs.Ease.get(-1)).to({alpha:1},1).wait(13).to({alpha:0},8,cjs.Ease.get(-1)).wait(50).to({alpha:1},1).to({_off:true},69).wait(50));
-
 	// Layer_19
 	this.instance_1 = new lib.Tween24("synched",0);
 	this.instance_1.parent = this;
@@ -12453,7 +12440,8 @@ p.nominalBounds = new cjs.Rectangle(-90,-114,200,150);
 		
 		var world = new World();
 		world.loadLevel();
-		
+		window.__lastWorld = world;
+
 		try {
 			if(parent.cmgGameEvent) {
 				parent.cmgGameEvent(stage.levelAttempts === 0 ? "start" : "replay", stage.levelNumber + "");
