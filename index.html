@@ -93,6 +93,10 @@ function handleComplete(evt,comp) {
 	stage.enableMouseOver();
 	// Muted by default (embedded widget); the pause-menu sound toggle
 	// unmutes and the choice is remembered.
+	// Create the audio plugin first: the sounds load later (loadSounds), and a
+	// volume set while no plugin exists is only recorded, never applied, so
+	// the plugin would start at full volume while the game believed it muted.
+	createjs.Sound.initializeDefaultPlugins();
 	try {
 		createjs.Sound.volume = window.localStorage.getItem("bloxorz_muted") === "0" ? 1 : 0;
 	} catch (e) {
